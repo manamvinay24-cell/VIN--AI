@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VINAI - AI Resume Builder</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <section id="loginPage" class="login-page">
+    <div class="bg-overlay"></div>
+    <div class="glow glow-1"></div>
+    <div class="glow glow-2"></div>
+
+    <div class="login-card">
+      <h1>VINAI</h1>
+      <p class="tagline">AI Resume Builder for Students and Freshers</p>
+
+      <input id="username" type="text" placeholder="Username" />
+      <input id="password" type="password" placeholder="Password" />
+
+      <button onclick="login()">Login</button>
+      <button class="social-btn" onclick="demoLogin()">Continue with Google</button>
+      <button class="social-btn" onclick="demoLogin()">Continue with Facebook</button>
+
+      <p class="demo-text">Demo Mode: Use any username and password</p>
+    </div>
+  </section>
+
+  <section id="appPage" class="app-page hidden">
+    <aside class="sidebar">
+      <h2>VINAI</h2>
+
+      <button onclick="showPage('dashboard')">🏠 Dashboard</button>
+      <button onclick="showPage('resume')">📄 Resume Builder</button>
+      <button onclick="showPage('saved')">💾 Saved Resumes</button>
+      <button onclick="showPage('cover')">✉️ Cover Letter</button>
+      <button onclick="showPage('hired')">💬 Why Hire Me</button>
+      <button onclick="showPage('tracker')">📌 Internship Tracker</button>
+      <button onclick="showPage('chat')">🤖 AI Chat</button>
+      <button onclick="showPage('skills')">🚀 Skills Roadmap</button>
+      <button class="logout-btn" onclick="logout()">Logout</button>
+    </aside>
+
+    <main class="main-content">
+      <div class="app-bg-overlay"></div>
+
+      <div id="dashboard" class="page active">
+        <h1>Welcome to VINAI</h1>
+        <p class="muted">Build resumes, prepare for internships, and chat with AI.</p>
+
+        <div class="stats">
+          <div class="stat-card">
+            <h3>Total Resumes</h3>
+            <p id="savedCount">0</p>
+          </div>
+          <div class="stat-card">
+            <h3>Applications</h3>
+            <p id="applicationCount">0</p>
+          </div>
+          <div class="stat-card">
+            <h3>AI Chat</h3>
+            <p>Connected</p>
+          </div>
+        </div>
+
+        <div class="cards">
+          <div class="card" onclick="showPage('resume')">📄 Resume Builder</div>
+          <div class="card" onclick="showPage('saved')">💾 Saved Resumes</div>
+          <div class="card" onclick="showPage('cover')">✉️ Cover Letter</div>
+          <div class="card" onclick="showPage('hired')">💬 Why Should You Be Hired?</div>
+          <div class="card" onclick="showPage('tracker')">📌 Internship Tracker</div>
+          <div class="card" onclick="showPage('chat')">🤖 AI Chat</div>
+          <div class="card" onclick="showPage('skills')">🚀 Skills Roadmap</div>
+        </div>
+      </div>
+
+      <div id="resume" class="page">
+        <h1>Resume Builder</h1>
+        <p class="muted">Create a clean and professional resume for internships and entry-level jobs.</p>
+
+        <div class="form-grid">
+          <input id="rName" placeholder="Full Name" />
+          <input id="rEmail" placeholder="Email" />
+          <input id="rPhone" placeholder="Phone Number" />
+          <input id="rLocation" placeholder="Location" />
+          <textarea id="rEducation" placeholder="Education"></textarea>
+          <textarea id="rObjective" placeholder="Career Objective"></textarea>
+          <textarea id="rSkills" placeholder="Skills"></textarea>
+          <textarea id="rProjects" placeholder="Projects"></textarea>
+          <textarea id="rCertifications" placeholder="Certifications"></textarea>
+          <textarea id="rLanguages" placeholder="Languages"></textarea>
+        </div>
+
+        <div class="btn-row">
+          <button onclick="generateResume()">Generate Resume</button>
+          <button onclick="saveResume()">Save Resume</button>
+          <button onclick="copyText('resumeOutput')">Copy</button>
+          <button onclick="downloadText('resumeOutput', 'vinai-resume.txt')">Download Text</button>
+          <button onclick="printResume()">Print</button>
+          <button class="danger" onclick="clearResumeForm()">Clear</button>
+        </div>
+
+        <div id="resumeOutput" class="resume-preview output">Your resume preview will appear here.</div>
+      </div>
+
+      <div id="saved" class="page">
+        <h1>Saved Resumes</h1>
+        <p class="muted">View, copy, download, or delete your saved resumes.</p>
+        <div id="savedResumesList" class="saved-list"></div>
+      </div>
+
+      <div id="cover" class="page">
+        <h1>Cover Letter Generator</h1>
+        <p class="muted">Generate a simple and professional cover letter.</p>
+
+        <div class="form-grid">
+          <input id="cName" placeholder="Student Name" />
+          <input id="cCompany" placeholder="Company Name" />
+          <input id="cRole" placeholder="Internship Role" />
+          <textarea id="cSkills" placeholder="Your Skills"></textarea>
+          <textarea id="cInterest" placeholder="Why are you interested in this role?"></textarea>
+          <input id="cAvailability" placeholder="Availability, for example: Immediate" />
+        </div>
+
+        <div class="btn-row">
+          <button onclick="generateCover()">Generate Cover Letter</button>
+          <button onclick="copyText('coverOutput')">Copy</button>
+          <button onclick="downloadText('coverOutput', 'cover-letter.txt')">Download Text</button>
+        </div>
+
+        <div id="coverOutput" class="output">Your cover letter will appear here.</div>
+      </div>
+
+      <div id="hired" class="page">
+        <h1>Why Should You Be Hired?</h1>
+        <p class="muted">Generate a strong answer for internship applications.</p>
+
+        <div class="form-grid">
+          <input id="hRole" placeholder="Role" />
+          <textarea id="hSkills" placeholder="Skills"></textarea>
+          <textarea id="hStrengths" placeholder="Strengths"></textarea>
+          <textarea id="hProjects" placeholder="Projects or Experience"></textarea>
+          <textarea id="hLearning" placeholder="Learning Attitude"></textarea>
+        </div>
+
+        <div class="btn-row">
+          <button onclick="generateHired()">Generate Answer</button>
+          <button onclick="copyText('hiredOutput')">Copy</button>
+        </div>
+
+        <div id="hiredOutput" class="output">Your answer will appear here.</div>
+      </div>
+
+      <div id="tracker" class="page">
+        <h1>Internship Tracker</h1>
+        <p class="muted">Track your internship applications in one place.</p>
+
+        <div class="form-grid">
+          <input id="tCompany" placeholder="Company Name" />
+          <input id="tRole" placeholder="Role" />
+          <input id="tPlatform" placeholder="Platform, for example: Internshala or LinkedIn" />
+          <input id="tDate" type="date" />
+          <select id="tStatus">
+            <option>Applied</option>
+            <option>Shortlisted</option>
+            <option>Interview</option>
+            <option>Rejected</option>
+            <option>Selected</option>
+          </select>
+          <textarea id="tNotes" placeholder="Notes"></textarea>
+        </div>
+
+        <div class="btn-row">
+          <button onclick="addApplication()">Add Application</button>
+          <button class="danger" onclick="clearApplications()">Clear All</button>
+        </div>
+
+        <div id="trackerList" class="saved-list"></div>
+      </div>
+
+      <div id="chat" class="page">
+        <h1>AI Chat</h1>
+        <p class="muted">Ask anything. VINAI will answer using real AI.</p>
+
+        <div class="chat-box">
+          <div id="messages" class="messages">
+            <div class="msg ai-msg">
+              Hi! I am VINAI. Ask me anything in English and I will help you.
+            </div>
+          </div>
+
+          <div class="quick-questions">
+            <button onclick="quickAsk('Explain HTML in simple words')">Explain HTML</button>
+            <button onclick="quickAsk('Write a professional resume summary for a B.Tech student')">Resume Summary</button>
+            <button onclick="quickAsk('Give me 5 app ideas for students')">App Ideas</button>
+            <button onclick="quickAsk('How can I improve my English speaking?')">Improve English</button>
+          </div>
+
+          <div class="chat-input">
+            <input id="chatInput" placeholder="Type your question here..." onkeydown="handleChatEnter(event)" />
+            <button id="sendBtn" onclick="sendChat()">Send</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="skills" class="page">
+        <h1>Skills Roadmap</h1>
+        <p class="muted">Choose a role and get a beginner-friendly roadmap.</p>
+
+        <select id="roleSelect">
+          <option value="frontend">Frontend Developer</option>
+          <option value="web">Web Developer</option>
+          <option value="bd">Business Development Intern</option>
+          <option value="data">Data Entry Intern</option>
+          <option value="uiux">UI/UX Beginner</option>
+          <option value="ai">AI Tools Beginner</option>
+        </select>
+
+        <button onclick="showRoadmap()">Show Roadmap</button>
+
+        <div id="roadmapOutput" class="output">Select a role and click Show Roadmap.</div>
+      </div>
+
+    </main>
+  </section>
+
+  <div id="resumeModal" class="modal hidden">
+    <div class="modal-card large-modal">
+      <h2>Saved Resume</h2>
+      <div id="modalResumeContent" class="output"></div>
+      <div class="btn-row">
+        <button onclick="copyModalResume()">Copy</button>
+        <button onclick="downloadModalResume()">Download</button>
+        <button onclick="closeResumeModal()">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast hidden">Done</div>
+
+  <script src="script.js"></script>
+</body>
+</html>
